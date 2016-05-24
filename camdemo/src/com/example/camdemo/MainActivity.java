@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,8 +15,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 public class MainActivity extends Activity {
-	private Camera mCamera = null;
+	//private Camera mCamera = null;
 	private CameraPreview mPreview = null;
+	private static final String TAG = "mydemo";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +29,15 @@ public class MainActivity extends Activity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }*/
+        Log.d(TAG, "will get camera instance");
         
-        mCamera = getCameraInstance();
-        mPreview = new CameraPreview(this, mCamera);
+      //  mCamera = getCameraInstance();
+        //mPreview = new CameraPreview(this, mCamera);
+        mPreview = new CameraPreview(this, savedInstanceState);
+        
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        preview.addView(mPreview);
+        Log.d(TAG, "next is preview.adview");
+        preview.addView(mPreview);//no this line no surface created "app pass a NULL surface"
     }
     /** Check if this device has a camera */
     private boolean checkCameraHardware(Context context) {
@@ -44,9 +50,15 @@ public class MainActivity extends Activity {
         }
     }
     
+    protected void onResume(){
+    	Log.d(TAG, "onResume");
+    	super.onResume(); 
+    	mPreview.onResume();
+    }
     /** A safe way to get an instance of the Camera object. */
     public static Camera getCameraInstance(){
         Camera c = null;
+        Log.d(TAG, "on getCameraInstance");
         try {
             c = Camera.open(); // attempt to get a Camera instance
         }
