@@ -1,6 +1,7 @@
 package com.example.camdemo;
 
 import java.io.IOException;
+import java.util.List;
 
 import android.content.Context;
 import android.hardware.Camera;
@@ -15,7 +16,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Camera mCamera;
     private static final String TAG = "mydemo";
     private int cameraId = 0;
-    
+    private List<Camera.Size> sizes = null;
     
     public CameraPreview(Context context, Bundle savedInstanceState){
     	super(context);
@@ -94,6 +95,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mCamera.startPreview();			//startCameraPreview();
 		//}
         Log.d(TAG, "startPreview in camera Preview");*/
+        Camera.Parameters parameters = mCamera.getParameters();
+        sizes = parameters.getSupportedPictureSizes();
+		
+			for(int i=0;i<sizes.size();i++) {
+	        	Camera.Size size = sizes.get(i);
+	        	Log.d(TAG, "supported picture size: " + size.width + " , " + size.height);
+			}
+		
         return qOpened;    
     }
 
