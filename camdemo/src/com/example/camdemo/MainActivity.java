@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
         mPreview = new CameraPreview(this, savedInstanceState);
         
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        //FrameLayout preview = (FrameLayout) findViewById(R.id.mPreview);
         Log.d(TAG, "next is preview.adview");
         preview.addView(mPreview);//no this line no surface created "app pass a NULL surface"
     }

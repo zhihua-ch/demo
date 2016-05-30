@@ -68,7 +68,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
     private boolean openCamera(){
     	boolean qOpened = false;
-    	Log.d(TAG, "open Camera");
+    	
     	
         try {
             /*releaseCameraAndPreview();
@@ -79,7 +79,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Log.d(TAG, "failed to open Camera");
             e.printStackTrace();
         }
-        
+        Log.d(TAG, "open Camera");
+        /*
         try {
 			mCamera.setPreviewDisplay(mHolder);
 		}
@@ -88,10 +89,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 			Log.e(TAG, "Failed to set preview display: " + e.getMessage());
 			e.printStackTrace();
 		}
-		
+		Log.d(TAG, "Had setPreviewDisplay");
 		//if( start_preview ) {
         mCamera.startPreview();			//startCameraPreview();
 		//}
+        Log.d(TAG, "startPreview in camera Preview");*/
         return qOpened;    
     }
 
@@ -107,7 +109,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     	Log.d(TAG, "on surfaceCreate");
         try {
             mCamera.setPreviewDisplay(holder);
-            mCamera.startPreview();
+           // mCamera.startPreview(); no Skipping 33 frame warnning
         } catch (IOException e) {
             Log.d(TAG, "Error setting camera preview: " + e.getMessage());
         }
@@ -124,6 +126,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     	Log.d(TAG, "on surfaceChanged");
         if (mHolder.getSurface() == null){
           // preview surface does not exist
+        	Log.d(TAG, "mHolder getsurface null");
           return;
         }
 
@@ -133,7 +136,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } catch (Exception e){
           // ignore: tried to stop a non-existent preview
         }
-
+        
         // set preview size and make any resize, rotate or
         // reformatting changes here
 
