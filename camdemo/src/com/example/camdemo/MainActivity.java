@@ -1,21 +1,24 @@
 package com.example.camdemo;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener{
 	private Camera mCamera = null;
 	private CameraPreview mPreview = null;
+	private MediaRecorder mRecorder = null;
+	private int cameraId = 0;
+	private Button startButton;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,9 @@ public class MainActivity extends Activity {
         mPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
+        
+        startButton = (Button)findViewById(R.id.start);
+        startButton.setOnClickListener(this);
     }
     /** Check if this device has a camera */
     private boolean checkCameraHardware(Context context) {
@@ -42,6 +48,11 @@ public class MainActivity extends Activity {
             // no camera on this device
             return false;
         }
+    }
+    protected void onResume(){
+    	//Log.d(TAG, "onResume");
+    	super.onResume(); 
+    	//mPreview.onResume();	
     }
     
     /** A safe way to get an instance of the Camera object. */
@@ -55,6 +66,78 @@ public class MainActivity extends Activity {
         }
         return c; // returns null if camera is unavailable
     }
+    public void onClick(View view){
+    	
+    }
+    /*
+    public void recordvideo(){
+    	/**get a file first
+    	this.mCamera.unlock();
+    	mRecorder = new MediaRecorder();
+    	mRecorder.setCamera(mCamera);
+    	//if(audioOn) setAudioResource();
+    	mRecorder.setVideoSource(cameraId);
+    	CamcorderProfile profile = CamcorderProfile.get(this.cameraId, CamcorderProfile.QUALITY_HIGH);*/
+		/*if( record_audio ) {
+			mediarec.setProfile(profile);
+		}
+		else {*/
+			// from http://stackoverflow.com/questions/5524672/is-it-possible-to-use-camcorderprofile-without-audio-source
+		/*mRecorder.setOutputFormat(profile.fileFormat);
+		mRecorder.setVideoFrameRate(profile.videoFrameRate);
+		mRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
+		mRecorder.setVideoEncodingBitRate(profile.videoBitRate);
+		mRecorder.setVideoEncoder(profile.videoCodec);
+		
+		videofile = this.getOutputMediaFile(MEDIA_TYPE_VIDEO);
+		
+		String vpath = videofile.getAbsolutePath();
+		Log.d(TAG, "save to" + vpath);
+		mRecorder.setOutputFile(vpath);
+		
+		try {
+    		mRecorder.setPreviewDisplay(mHolder.getSurface());
+			mRecorder.prepare();
+        	mRecorder.start();
+        	/*video_start_time = System.currentTimeMillis();
+        	video_start_time_set = true;
+    		main_activity.runOnUiThread(new Runnable() {
+    			public void run() {
+    				stopstart_video_toast = showToast(stopstart_video_toast, "Started recording video");
+    			}
+  			});
+            main_activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(videoFile)));*/
+    /*	}
+    	catch(IOException e) {    		
+    			Log.d(TAG, "failed to save video");
+			e.printStackTrace();
+			mRecorder.reset();
+    		mRecorder.release(); 
+    		mRecorder = null;
+			//is_taking_photo = false;
+			//is_taking_photo_on_timer = false;
+			this.reconnectCamera();
+  		}
+		catch(RuntimeException e) {
+    		// needed for emulator at least - although MediaRecorder not meant to work with emulator, it's good to fail gracefully    		
+    		Log.e(TAG, "runtime exception starting video recorder");
+			e.printStackTrace();
+    		/*main_activity.runOnUiThread(new Runnable() {
+    			public void run() {
+		    	    showToast(null, "Failed to record video");
+    			}
+  			});*/
+    		/*mRecorder.reset();
+    		mRecorder.release(); 
+    		mRecorder = null;
+			//is_taking_photo = false;
+			//is_taking_photo_on_timer = false;
+			this.reconnectCamera();
+		}
+		
+		
+    } */
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
